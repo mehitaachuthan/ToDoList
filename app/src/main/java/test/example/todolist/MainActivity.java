@@ -15,7 +15,7 @@ import android.util.Log;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnTaskClickListener{
 
     Adapter recyclerAdapter;
     RecyclerView recyclerView;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     public void update() {
         tasks = dbHelper.getAll();
 
-        recyclerAdapter = new RecyclerAdapter(tasks, this);
+        recyclerAdapter = new RecyclerAdapter(tasks, this, this);
         recyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -63,5 +63,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onTaskClick(int position) {
+        Toast.makeText(this, "Clicked " + tasks.get(position).getName(), Toast.LENGTH_SHORT).show();
     }
 }

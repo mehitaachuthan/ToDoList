@@ -7,24 +7,34 @@ import android.view.View;
 import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.content.Context;
+import android.widget.Toast;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>{
 
     private ArrayList<Task> tasks;
-    Context context;
+    private Context context;
+    private OnTaskClickListener taskListener;
 
-    public RecyclerAdapter(ArrayList<Task> tasks, Context context) {
+    public RecyclerAdapter(ArrayList<Task> tasks, Context context, OnTaskClickListener taskListener) {
         this.tasks = tasks;
         this.context = context;
+        this.taskListener = taskListener;
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public TextView taskItem;
+        public OnTaskClickListener taskClickListener;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(View itemView, OnTaskClickListener taskClickListener) {
             super(itemView);
             this.taskItem = itemView.findViewById(R.id.task_name);
+            this.taskClickListener = taskClickListener;
+            itemView.setOnClickListener(this);
+        }
+
+        public void onClick(View view) {
+            taskClickListener.onTaskClick(getLayoutPosition());
         }
     }
 
@@ -32,7 +42,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public RecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View layoutView = layoutInflater.inflate(R.layout.task, parent, false);
-        MyViewHolder myViewHolder = new MyViewHolder(layoutView);
+        MyViewHolder myViewHolder = new MyViewHolder(layoutView, taskListener);
         return myViewHolder;
     }
 
