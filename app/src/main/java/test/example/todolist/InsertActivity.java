@@ -1,5 +1,7 @@
 package test.example.todolist;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +12,7 @@ public class InsertActivity extends AppCompatActivity{
     Button saveButton;
     EditText taskName;
 
+    @SuppressLint("RestrictedApi")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.insert_activity);
@@ -23,12 +26,12 @@ public class InsertActivity extends AppCompatActivity{
             public void onClick(View v) {
                 DatabaseHelper dbHelper;
                 try {
-                    Task task = new Task(-1, taskName.getText().toString());
                     dbHelper = new DatabaseHelper(InsertActivity.this);
-                    dbHelper.add(task);
+                    dbHelper.addTask(new Task(-1, taskName.getText().toString()));
+                    finish();
                 }
                 catch(Exception e) {
-                    Toast.makeText(InsertActivity.this, "Error Creating Task", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InsertActivity.this, "Invalid Task", Toast.LENGTH_SHORT).show();
                 }
             }
         });

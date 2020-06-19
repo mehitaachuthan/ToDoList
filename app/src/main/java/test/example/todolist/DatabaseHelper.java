@@ -4,6 +4,8 @@ import java.lang.String;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
+import java.util.ArrayList;
+import android.database.Cursor;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper{
@@ -26,10 +28,38 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void add(Task task) {
-        /*SQLiteDatabase db = this.getWritableDatabase();
-        String insertStatement = "INSERT INTO " + TABLE_NAME + " (" + COL_NAME + ")\n" +
-                "VALUES " + "(" + task.getName() + ")";
-        db.execSQL(insertStatement);*/
+    public void addTask(Task task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement = "INSERT INTO " + TABLE_NAME + " (" + COL_NAME + ") " +
+                "VALUES " + "(\"" + task.getName() + "\")";
+        db.execSQL(insertStatement);
+        db.close();
+    }
+
+    public void deleteTask(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteStatement = "DELETE FROM " + TABLE_NAME + " WHERE " + COL_ID + "=\"" +
+                id + "\"";
+        db.execSQL(deleteStatement);
+        db.close();
+    }
+
+    public ArrayList<Task> getAll() {
+        ArrayList<Task> tasks = new ArrayList<Task>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String queryStatement = "SELECT * FROM " + TABLE_NAME;
+        Cursor cursor = db.rawQuery(queryStatement, null);
+        int id;
+        String name;
+        if(cursor.moveToFirst()) {
+            do {
+                id = cursor.getInt(0);
+                name = cursor.getString(1);
+                tasks.add(new Task(id, name));
+            } while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return tasks;
     }
 }

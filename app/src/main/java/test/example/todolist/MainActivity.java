@@ -10,36 +10,40 @@ import android.view.MenuInflater;
 import android.content.Intent;
 import java.util.ArrayList;
 import android.view.Menu;
+import android.widget.Toast;
+import android.util.Log;
 
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
     Adapter recyclerAdapter;
+    RecyclerView recyclerView;
+    DatabaseHelper dbHelper;
     ArrayList<Task> tasks;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tasks = new ArrayList<Task>();
-        tasks.add(new Task(1, "Go to Store"));
-        /*tasks.add(new Task(2, "Laundry"));
-        tasks.add(new Task(3, "Sleep"));
-        tasks.add(new Task(4, "Eat"));
-        tasks.add(new Task(5, "Finish HW"));
-        tasks.add(new Task(6, "Exercise"));
-        tasks.add(new Task(7, "Buy Clothes"));
-        tasks.add(new Task(8, "Go to Park"));
-        tasks.add(new Task(9, "Find Book"));
-        tasks.add(new Task(10, "Set up System"));
-        tasks.add(new Task(11, "Learn something"));
-        tasks.add(new Task(12, "Build Application")); */
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        LayoutManager manager = new LinearLayoutManager(this);
+        LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(manager);
+
+        dbHelper = new DatabaseHelper(MainActivity.this);
+        update();
+    }
+
+    protected void onResume() {
+        // Set Recycler view in resume since must pass through onResume when return from
+        // the insert activity
+        super.onResume();
+        update();
+    }
+
+    public void update() {
+        tasks = dbHelper.getAll();
 
         recyclerAdapter = new RecyclerAdapter(tasks, this);
         recyclerView.setAdapter(recyclerAdapter);
