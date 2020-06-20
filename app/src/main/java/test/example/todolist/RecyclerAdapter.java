@@ -30,7 +30,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             super(itemView);
             this.taskItem = itemView.findViewById(R.id.task_name);
             this.taskClickListener = taskClickListener;
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(MyViewHolder.this);
         }
 
         public void onClick(View view) {

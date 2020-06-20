@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 import java.util.ArrayList;
 import android.database.Cursor;
+import android.util.Log;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper{
@@ -38,8 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public void deleteTask(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String deleteStatement = "DELETE FROM " + TABLE_NAME + " WHERE " + COL_ID + "=\"" +
-                id + "\"";
+        String deleteStatement = "DELETE FROM " + TABLE_NAME + " WHERE " + COL_ID + " = " + id;
         db.execSQL(deleteStatement);
         db.close();
     }

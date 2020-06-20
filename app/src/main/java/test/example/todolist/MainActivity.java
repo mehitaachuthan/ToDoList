@@ -11,7 +11,6 @@ import android.content.Intent;
 import java.util.ArrayList;
 import android.view.Menu;
 import android.widget.Toast;
-import android.util.Log;
 
 import android.os.Bundle;
 
@@ -32,20 +31,15 @@ public class MainActivity extends AppCompatActivity implements OnTaskClickListen
         recyclerView.setLayoutManager(manager);
 
         dbHelper = new DatabaseHelper(MainActivity.this);
-        update();
     }
 
     protected void onResume() {
         // Set Recycler view in resume since must pass through onResume when return from
         // the insert activity
         super.onResume();
-        update();
-    }
-
-    public void update() {
         tasks = dbHelper.getAll();
 
-        recyclerAdapter = new RecyclerAdapter(tasks, this, this);
+        recyclerAdapter = new RecyclerAdapter(tasks, MainActivity.this, MainActivity.this);
         recyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -66,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements OnTaskClickListen
     }
 
     public void onTaskClick(int position) {
-        Toast.makeText(this, "Clicked " + tasks.get(position).getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
+        intent.putExtra("Task_ID", tasks.get(position).getTaskID());
+        intent.putExtra("Task_Name", tasks.get(position).getName());
+        startActivity(intent);
     }
 }

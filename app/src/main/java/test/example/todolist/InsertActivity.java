@@ -12,13 +12,12 @@ public class InsertActivity extends AppCompatActivity{
     Button saveButton;
     EditText taskName;
 
-    @SuppressLint("RestrictedApi")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.insert_activity);
 
         getSupportActionBar().setTitle("Add New Task");
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         saveButton = findViewById(R.id.save);
         taskName = findViewById(R.id.enter_task);
