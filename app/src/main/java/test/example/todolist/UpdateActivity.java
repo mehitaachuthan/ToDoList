@@ -38,7 +38,7 @@ public class UpdateActivity extends AppCompatActivity{
                 DatabaseHelper dbHelper;
                 try {
                     dbHelper = new DatabaseHelper(UpdateActivity.this);
-                    //dbHelper.deleteTask(taskID);
+                    dbHelper.deleteTask(taskID);
                     finish();
                 }
                 catch(Exception e) {
