@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 import java.util.ArrayList;
 import android.database.Cursor;
-import android.util.Log;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper{
@@ -26,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String dropTableStatement = "DROP TABLE IF EXISTS " + TABLE_NAME;
+        db.execSQL(dropTableStatement);
         onCreate(db);
     }
 
@@ -41,6 +41,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         String deleteStatement = "DELETE FROM " + TABLE_NAME + " WHERE " + COL_ID + " = " + id;
         db.execSQL(deleteStatement);
+        db.close();
+    }
+
+    public void updateTask(Task task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateStatement = "UPDATE " + TABLE_NAME + " SET " + COL_NAME + " = \"" +
+                task.getName() + "\" WHERE " + COL_ID + " = " + task.getTaskID();
+        db.execSQL(updateStatement);
         db.close();
     }
 

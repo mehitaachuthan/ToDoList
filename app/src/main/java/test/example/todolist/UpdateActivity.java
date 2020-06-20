@@ -46,5 +46,19 @@ public class UpdateActivity extends AppCompatActivity{
                 }
             }
         });
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                DatabaseHelper dbHelper;
+                try {
+                    dbHelper = new DatabaseHelper(UpdateActivity.this);
+                    dbHelper.updateTask(new Task(taskID, taskName.getText().toString()));
+                    finish();
+                }
+                catch(Exception e) {
+                    Toast.makeText(UpdateActivity.this, "Could not update", Toast.LENGTH_SHORT);
+                }
+            }
+        });
     }
 }
