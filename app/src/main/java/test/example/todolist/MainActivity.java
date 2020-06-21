@@ -3,7 +3,7 @@ package test.example.todolist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.LayoutManager;
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import android.view.MenuItem;
@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.content.Intent;
 import java.util.ArrayList;
 import android.view.Menu;
-import android.widget.Toast;
 
 import android.os.Bundle;
 
@@ -30,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements OnTaskClickListen
 
         LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(manager);
+
+        ItemDecoration decoration = new DividerItemDecoration(MainActivity.this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(decoration);
 
         dbHelper = new DatabaseHelper(MainActivity.this);
     }

@@ -18,6 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public void onCreate(SQLiteDatabase db) {
+        //can use insert method for SQLite Database or sql statement below
         String createTableStatement = "CREATE TABLE " + TABLE_NAME + "(" + COL_ID +
                 " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME + " TEXT)";
         db.execSQL(createTableStatement);
@@ -30,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public boolean addTask(Task task) {
+        //remember "" inside string around strings
         if(contains(task.getName()))
             return false;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -48,6 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public boolean updateTask(Task task) {
+        //remember "" inside string around strings
         if(contains(task.getName()))
             return false;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -59,6 +62,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public boolean contains(String taskName) {
+        //check if duplicate task name
+        //remember "" inside string around strings
         boolean insideDB;
         SQLiteDatabase db = this.getReadableDatabase();
         String queryStatement = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_NAME +
