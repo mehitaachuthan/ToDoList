@@ -29,12 +29,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void addTask(Task task) {
+    public boolean addTask(Task task) {
+        if(contains(task.getName()))
+            return false;
         SQLiteDatabase db = this.getWritableDatabase();
         String insertStatement = "INSERT INTO " + TABLE_NAME + " (" + COL_NAME + ") " +
                 "VALUES " + "(\"" + task.getName() + "\")";
         db.execSQL(insertStatement);
         db.close();
+        return true;
     }
 
     public void deleteTask(int id) {
@@ -44,12 +47,29 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close();
     }
 
-    public void updateTask(Task task) {
+    public boolean updateTask(Task task) {
+        if(contains(task.getName()))
+            return false;
         SQLiteDatabase db = this.getWritableDatabase();
         String updateStatement = "UPDATE " + TABLE_NAME + " SET " + COL_NAME + " = \"" +
                 task.getName() + "\" WHERE " + COL_ID + " = " + task.getTaskID();
         db.execSQL(updateStatement);
         db.close();
+        return true;
+    }
+
+    public boolean contains(String taskName) {
+        boolean insideDB;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String queryStatement = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_NAME +
+                " = \"" + taskName + "\"";
+        Cursor cursor = db.rawQuery(queryStatement, null);
+        if(cursor.moveToFirst())
+            insideDB = true;
+        else
+            insideDB = false;
+        db.close();
+        return insideDB;
     }
 
     public ArrayList<Task> getAll() {

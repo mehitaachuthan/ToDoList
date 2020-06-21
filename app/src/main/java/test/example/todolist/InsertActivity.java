@@ -24,10 +24,14 @@ public class InsertActivity extends AppCompatActivity{
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 DatabaseHelper dbHelper;
+                boolean success;
                 try {
                     dbHelper = new DatabaseHelper(InsertActivity.this);
-                    dbHelper.addTask(new Task(-1, taskName.getText().toString()));
-                    finish();
+                    success = dbHelper.addTask(new Task(-1, taskName.getText().toString()));
+                    if(!success)
+                        Toast.makeText(InsertActivity.this, "Duplicate task", Toast.LENGTH_SHORT).show();
+                    else
+                        finish();
                 }
                 catch(Exception e) {
                     Toast.makeText(InsertActivity.this, "Invalid Task", Toast.LENGTH_SHORT).show();

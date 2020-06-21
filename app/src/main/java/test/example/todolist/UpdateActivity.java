@@ -50,10 +50,14 @@ public class UpdateActivity extends AppCompatActivity{
         updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 DatabaseHelper dbHelper;
+                boolean success;
                 try {
                     dbHelper = new DatabaseHelper(UpdateActivity.this);
-                    dbHelper.updateTask(new Task(taskID, taskName.getText().toString()));
-                    finish();
+                    success = dbHelper.updateTask(new Task(taskID, taskName.getText().toString()));
+                    if(!success)
+                        Toast.makeText(UpdateActivity.this, "Duplicate task", Toast.LENGTH_SHORT).show();
+                    else
+                        finish();
                 }
                 catch(Exception e) {
                     Toast.makeText(UpdateActivity.this, "Could not update", Toast.LENGTH_SHORT);
