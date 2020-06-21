@@ -1,2 +1,2 @@
 # ToDoList
-An app that allows tasks to be saved
+An app that allows user to keep track of tasks
